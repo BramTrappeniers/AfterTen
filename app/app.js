@@ -47,12 +47,8 @@ define(['services/routeResolver'], function () {
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 console.log('InitRouteChangeStart');
                 if (next && next.$$route && next.$$route.secure) {
-                    console.log('First If');
                     if (!authService.user.isAuthenticated) {
-                        console.log('Second If');
-//                        $rootScope.$evalAsync(function () {
                         authService.redirectToLogin();
-//                        });
                     }
                 }
             });

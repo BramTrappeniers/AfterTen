@@ -4,7 +4,7 @@ define(['app'], function (app) {
     console.log('Creating AuthService ...');
     var injectParams = ['$http', '$rootScope', '$location'];
 
-    var authFactory = function ($http, $rootScope, $location) {
+    var authFactory = function ($http, $rootScope, $location, $q) {
         var serviceBase = '/api/dataservice/',
             factory = {
                 loginPath: '/login',
@@ -14,13 +14,21 @@ define(['app'], function (app) {
                 }
             };
 
-        factory.login = function (email, password) {
-            return $http.post(serviceBase + 'login', { userLogin: { userName: email, password: password } }).then(
-                function (results) {
-                    var loggedIn = results.data.status;
-                    changeAuth(loggedIn);
-                    return loggedIn;
-                });
+        factory.login = function (email, password){
+            //TODO Real logic
+            var deferred = $q.defer();
+
+            changeAuth(true);
+            deferred.resolve(true);
+
+            return deferred.promise;
+
+//            return $http.post(serviceBase + 'login', { userLogin: { userName: email, password: password } }).then(
+//                function (results) {
+//                    var loggedIn = results.data.status;
+//                    changeAuth(loggedIn);
+//                    return loggedIn;
+//                });
         };
 
         factory.logout = function () {
@@ -33,9 +41,6 @@ define(['app'], function (app) {
         };
 
         factory.redirectToLogin = function () {
-            console.log('redirectToLogin');
-//            $rootScope.$broadcast('redirectToLogin', null);
-
             var path = '/login' + $location.$$path;
             $location.replace();
             $location.path(path);
