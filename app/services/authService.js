@@ -2,7 +2,7 @@
 
 define(['app'], function (app) {
     console.log('Creating AuthService ...');
-    var injectParams = ['$http', '$rootScope', '$location'];
+    var injectParams = ['$http', '$rootScope', '$location', '$q'];
 
     var authFactory = function ($http, $rootScope, $location, $q) {
         var serviceBase = '/api/dataservice/',
